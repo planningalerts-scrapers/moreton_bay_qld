@@ -1,4 +1,5 @@
 require "httparty"
+require "scraperwiki"
 
 url = "https://api.moretonbay.qld.gov.au/mplu/da/search/advanced"
 
@@ -35,5 +36,5 @@ HTTParty.get(url, query: query).each do |r|
     "date_scraped" => Date.today.to_s,
     "date_received" => date_received.to_s
   }
-  pp record
+  ScraperWiki.save_sqlite(['council_reference'], record)
 end
