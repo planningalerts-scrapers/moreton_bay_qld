@@ -17,4 +17,23 @@ query = {
   end: end_date.to_s
 }
 
-pp HTTParty.get(url, query: query)
+HTTParty.get(url, query: query).each do |r|
+  # The API is doing the more correct thing by using a timestamp
+  # that includes the timezone. In PlanningAlerts the date_received
+  # doesn't include the timezone and assumes a local timezone which
+  # is really not great.
+
+  # The lodgement time in local Queensland time, then just converted
+  # to a simple date (without the time bit)
+  date_received = Time.parse(r["lodgedDate"]).getlocal("+10:00").to_date
+
+  record = {
+    "council_reference" => r["fileId"],
+    "address" => r["primaryPropertyAddress"],
+    "description" => r["description"],
+    "info_url" => "https://www.moretonbay.qld.gov.au/Services/Building-Development/DA-Tracker/#{r['applicationId']}",
+    "date_scraped" => Date.today.to_s,
+    "date_received" => date_received.to_s
+  }
+  pp record
+end
