@@ -3,9 +3,6 @@ require "scraperwiki"
 
 url = "https://api.moretonbay.qld.gov.au/mplu/da/search/advanced"
 
-start_date = "2021-05-01 00:00 +10:00"
-end_date = "2021-05-08 00:00 +10:00"
-
 # All application submitted in the last 28 days
 end_date = Time.now
 start_date = end_date - 28 * 24 * 60 * 60
