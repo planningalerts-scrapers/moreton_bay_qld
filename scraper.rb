@@ -1,5 +1,16 @@
 require "httparty"
 
-url = "https://api.moretonbay.qld.gov.au/mplu/da/search/advanced?dateRange=custom&end=2021-05-08%2000%3A00%20%2B10%3A00&propertyType=address&searchType=advanced&start=2021-05-01%2000%3A00%20%2B10%3A00"
+url = "https://api.moretonbay.qld.gov.au/mplu/da/search/advanced"
 
-pp HTTParty.get(url)
+start_date = "2021-05-01 00:00 +10:00"
+end_date = "2021-05-08 00:00 +10:00"
+
+query = {
+  searchType: "advanced",
+  propertyType: "address",
+  dateRange: "custom",
+  start: start_date,
+  end: end_date
+}
+
+pp HTTParty.get(url, query: query)
